@@ -1,0 +1,56 @@
+h<!DOCTYPE html>
+<html lang=""en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Evolved</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <h1>Snake Evolved</h1>
+
+    <div id="hud">
+      <div>Score<b id="score">0</b></div>
+      <div>Level<b id="level">1</b><i id="xp"><u></u></i></div>
+      <div>Best<b id="best">0</b></div>
+      <div id="timebox" class="hidden">Time<b id="time">0</b></div>
+    </div>
+
+    <div id="stage">
+      <canvas id="game" width="480" height="480"></canvas>
+      <div id="toast"></div>
+
+      <section id="menu" class="panel">
+        <h2>Choose your run</h2>
+        <div class="group"><label>Mode</label><div class="chips" id="opt-mode"></div></div>
+        <div class="group"><label>Map</label><div class="chips" id="opt-map"></div></div>
+        <div class="group"><label>Skin</label><div class="chips" id="opt-skin"></div></div>
+        <div class="group"><label>Theme</label><div class="chips" id="opt-theme"></div></div>
+        <button class="btn" data-act="play">Play</button>
+      </section>
+
+      <section id="pause" class="panel hidden">
+        <h2>Paused</h2>
+        <button class="btn" data-act="resume">Resume</button>
+        <button class="btn ghost" data-act="play">Restart</button>
+        <button class="btn ghost" data-act="menu">Change settings</button>
+      </section>
+
+      <section id="over" class="panel hidden">
+        <h2 id="o-title">Game over</h2>
+        <p id="o-stats"></p>
+        <p id="o-new" class="hidden">New best score!</p>
+        <button class="btn" data-act="play">Play again</button>
+        <button class="btn ghost" data-act="menu">Change settings</button>
+      </section>
+    </div>
+
+    <footer>
+      Arrows or WASD to steer. P or Esc to pause. Enter to start.
+      <button class="link" data-act="sound" id="sound">Sound on</button>
+    </footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>"
