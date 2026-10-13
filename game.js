@@ -9,7 +9,6 @@ const store = {
   set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
 
-// ---------- Content: themes, modes, maps, skins ----------
 const THEMES = {
   Meadow: { a: '#a8d86e', b: '#9ccf63', bg: ['#2d6a4f', '#1b4332'], acc: '#ffd166', wall: '#6b4f3a' },
   Night:  { a: '#1d2b53', b: '#233366', bg: ['#0b132b', '#05070f'], acc: '#7bdff2', wall: '#5a6aa0' },
@@ -46,7 +45,6 @@ const GROUPS = { mode: MODES, map: MAPS, skin: SKINS, theme: THEMES };
 let sel = { mode: 'Classic', map: 'Open', skin: 'Emerald', theme: 'Meadow', ...store.get('snake-prefs', {}) };
 for (const k in GROUPS) if (!GROUPS[k][sel[k]]) sel[k] = Object.keys(GROUPS[k])[0];
 
-// ---------- State ----------
 let state = 'menu', M = MODES[sel.mode];
 let snake = [], prev = [], dir = { x: 1, y: 0 }, queue = [], food = null, bonus = null, rocks = new Set();
 let score = 0, apples = 0, level = 1, best = 0, newBest = false, tickMs = 150, acc = 0, timeLeft = 0;
@@ -56,7 +54,6 @@ const bestKey = () => `snake-best-${sel.mode}-${sel.map}`;
 const blocked = (x, y) => MAPS[sel.map](x, y) || rocks.has(x + ',' + y);
 const speedFor = () => Math.max(55, 150 - (level - 1) * 9) * M.speed;
 
-// ---------- Sound ----------
 let AC, muted = store.get('snake-muted', false);
 function beep(f, d = .08, type = 'square', v = .05) {
   if (muted) return;
@@ -73,7 +70,6 @@ function toggleSound() {
   $('sound').textContent = muted ? 'Sound off' : 'Sound on';
 }
 
-// ---------- UI helpers ----------
 function show(id) { ['menu', 'pause', 'over'].forEach(p => $(p).classList.toggle('hidden', p !== id)); }
 function toast(t) {
   const el = $('toast'); el.textContent = t;
@@ -106,7 +102,6 @@ function buildOptions() {
 }
 function resetStats() { score = 0; apples = 0; level = 1; timeLeft = 0; best = store.get(bestKey(), 0); hud(); }
 
-// ---------- Game flow ----------
 function freeCell(far) {
   for (let n = 0; n < 600; n++) {
     const c = { x: rand(COLS), y: rand(ROWS) };
@@ -165,7 +160,6 @@ function update() {
   else snake.pop();
 }
 
-// ---------- Input ----------
 const DIRS = { arrowup: [0, -1], w: [0, -1], arrowdown: [0, 1], s: [0, 1], arrowleft: [-1, 0], a: [-1, 0], arrowright: [1, 0], d: [1, 0] };
 function steer(x, y) {
   if (state !== 'play') return;
@@ -203,7 +197,6 @@ document.addEventListener('click', e => {
 });
 addEventListener('blur', pause);
 
-// ---------- Drawing ----------
 function circle(x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); }
 function burst(x, y, col, n) {
   for (let i = 0; i < n; i++) {
@@ -285,7 +278,6 @@ function draw() {
   ctx.globalAlpha = 1; ctx.restore();
 }
 
-// ---------- Main loop ----------
 function loop(t) {
   const dt = Math.min(50, t - (last || t)); last = t; now = t;
   if (state === 'play') {
